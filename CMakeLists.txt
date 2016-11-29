@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8.12)
 
 project (deadbeef-qt)
 
@@ -18,10 +18,20 @@ else(NOT DEADBEEF_API)
 endif(NOT DEADBEEF_API)
 
 include_directories(BEFORE SYSTEM ${CMAKE_INSTALL_PREFIX}/include)
+include_directories("/Applications/deadbeef.app/Contents/Headers")
 
-find_package(Qt4 4.4 COMPONENTS QtCore QtGui REQUIRED)
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
-include(${QT_USE_FILE})
+#find_package(Qt4 4.4 COMPONENTS QtCore QtGui REQUIRED)
+find_package(Qt5Core)
+find_package(Qt5Widgets)
+find_package(Qt5Concurrent)
+find_package(Qt5LinguistTools)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -107,16 +117,18 @@ include(${CMAKE_SOURCE_DIR}/plugins/CoverArt/CoverArt.cmake)
 include(${CMAKE_SOURCE_DIR}/plugins/Hotkeys/Hotkeys.cmake)
 configure_file(${CMAKE_SOURCE_DIR}/config.h.cmake ${CMAKE_SOURCE_DIR}/config.h)
 
-qt4_wrap_cpp(MOC_SRCS ${QT_HEADERS})
-qt4_wrap_ui(UIS_H ${FORMS})
-qt4_add_resources(RCC ${RESOURCES})
-qt4_add_translation(COMPILED_TRANSLATIONS ${TRANSLATIONS})
+#qt4_wrap_cpp(MOC_SRCS ${QT_HEADERS})
+#qt4_wrap_ui(UIS_H ${FORMS})
+#qt4_add_resources(RCC ${RESOURCES})
+#qt4_add_translation(COMPILED_TRANSLATIONS ${TRANSLATIONS})
 
-add_library(ddb_gui_Qt SHARED ${SOURCES} ${QT_HEADERS} ${HEADERS} ${MOC_SRCS} ${UIS_H} ${RCC} ${COMPILED_TRANSLATIONS})
+qt5_add_translation(COMPILED_TRANSLATIONS ${TRANSLATIONS})
+
+add_library(ddb_gui_Qt SHARED ${SOURCES} ${QT_HEADERS} ${HEADERS} ${UIS_H} ${RCC} ${COMPILED_TRANSLATIONS})
 
 set_target_properties(ddb_gui_Qt PROPERTIES PREFIX "")
 
-target_link_libraries(ddb_gui_Qt ${QT_LIBRARIES})
+target_link_libraries(ddb_gui_Qt Qt5::Core Qt5::Widgets Qt5::Concurrent)
 
 install(TARGETS ddb_gui_Qt LIBRARY DESTINATION lib/deadbeef/)
 install(FILES ${COMPILED_TRANSLATIONS} DESTINATION share/deadbeef/translations)

@@ -2,6 +2,7 @@
 #define DBFILEDIALOG_H
 
 #include <QFileDialog>
+#include <QStringList>
 
 
 class DBFileDialog : public QFileDialog {
@@ -13,7 +14,7 @@ public:
                  FileMode mode = QFileDialog::AnyFile,
                  QFileDialog::Options options = QFileDialog::DontUseNativeDialog);
 
-    QStringList exec();
+    QStringList execDialog();
 };
 
 #endif // DBFILEDIALOG_H

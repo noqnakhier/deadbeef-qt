@@ -15,10 +15,10 @@ DBFileDialog::DBFileDialog(QWidget *parent,
     setDirectory(lasturl.path());
     setFileMode(mode);
     setOptions(options);
-    setFilters(filters);
+    setNameFilters(filters);
 }
 
-QStringList DBFileDialog::exec() {
+QStringList DBFileDialog::execDialog() {
     QStringList fileNames;
     if (QFileDialog::exec())
         fileNames = selectedFiles();

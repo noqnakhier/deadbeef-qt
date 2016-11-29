@@ -18,7 +18,7 @@
 #define SIGNUM(x) ((x > 0) - (x < 0))
 
 #include <include/callbacks.h>
-#include <QtConcurrentRun>
+#include <QtConcurrent>
 #include <QFutureWatcher>
 #include "DBFileDialog.h"
 
@@ -177,7 +177,7 @@ void MainWindow::on_actionAddFolder_activated() {
                             QStringList(),
                             QFileDialog::DirectoryOnly,
                             QFileDialog::DontUseNativeDialog | QFileDialog::ShowDirsOnly | QFileDialog::ReadOnly);
-    QStringList fileNames = fileDialog.exec();
+    QStringList fileNames = fileDialog.execDialog();
     if (fileNames.isEmpty())
         return;
     foreach (QString localFile, fileNames)
@@ -309,7 +309,7 @@ void MainWindow::on_actionAddFiles_activated() {
                             QStringList(),
                             QFileDialog::ExistingFiles,
                             QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly);
-    QStringList fileNames = fileDialog.exec();
+    QStringList fileNames = fileDialog.execDialog();
     if (fileNames.isEmpty())
         return;
     foreach (QString localFile, fileNames)
@@ -377,7 +377,7 @@ void MainWindow::on_actionSaveAsPlaylist_activated() {
                             QFileDialog::DontUseNativeDialog);
     fileDialog.setAcceptMode(QFileDialog::AcceptSave);
     
-    QStringList fileNames = fileDialog.exec();
+    QStringList fileNames = fileDialog.execDialog();
     if (fileNames.isEmpty())
         return;
     
@@ -397,7 +397,7 @@ void MainWindow::on_actionLoadPlaylist_activated() {
                             filters,
                             QFileDialog::ExistingFile,
                             QFileDialog::DontUseNativeDialog | QFileDialog::ReadOnly);
-    QStringList fileNames = fileDialog.exec();
+    QStringList fileNames = fileDialog.execDialog();
     if (fileNames.isEmpty())
         return;
 

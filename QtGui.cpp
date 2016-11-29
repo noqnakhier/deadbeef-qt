@@ -99,7 +99,8 @@ static int pluginConnect() {
 
 
 void MainThreadRun(void *) {
-    QApplication app(0, 0);
+    int argc = 0;
+    QApplication app(argc, NULL);
     QApplication::setOrganizationName("deadbeef");
     QApplication::setApplicationName("deadbeef-qt");
 
@@ -119,7 +120,7 @@ void MainThreadRun(void *) {
     translator.load(QString::fromUtf8(DEADBEEF_PREFIX) + QString("/share/deadbeef/translations/QtGui_") + locale);
     app.installTranslator(&translator);
 
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
+    //QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
 
     MainWindow w;
     w.show();

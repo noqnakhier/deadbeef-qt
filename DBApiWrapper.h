@@ -3,6 +3,7 @@
 
 #include <deadbeef/deadbeef.h>
 
+#include <QObject>
 #include <QUrl>
 
 #define WRAPPER DBApiWrapper::Instance()
